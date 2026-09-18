@@ -1,0 +1,4898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FLOW SMP | Semi-Anarchy Minecraft</title>
+
+    <meta
+        name="description"
+        content="FLOW SMP is a competitive Minecraft Semi-Anarchy server focused on PvP, raiding, survival, community and seasonal gameplay."
+    >
+
+    <meta
+        name="keywords"
+        content="FLOW SMP, Minecraft SMP, Minecraft Semi Anarchy, Minecraft PvP, Minecraft Raiding, Flow SMP Server"
+    >
+
+    <meta name="theme-color" content="#8b0000">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@500;600;700;800;900&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        /* =========================================================
+           FLOW SMP
+           MAIN WEBSITE
+           ========================================================= */
+
+        :root {
+            --bg: #050505;
+            --bg-soft: #090909;
+            --bg-card: #0d0d0d;
+            --bg-card-2: #111111;
+
+            --red-dark: #3d0000;
+            --red: #8b0000;
+            --red-light: #b30000;
+            --red-bright: #e00000;
+
+            --white: #ffffff;
+            --gray: #a7a7a7;
+            --gray-light: #d0d0d0;
+
+            --border: rgba(255, 255, 255, 0.08);
+            --border-red: rgba(180, 0, 0, 0.35);
+
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.65);
+            --red-shadow: 0 0 35px rgba(139, 0, 0, 0.22);
+
+            --radius: 18px;
+            --radius-small: 12px;
+
+            --nav-height: 78px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background:
+                radial-gradient(
+                    circle at 50% -10%,
+                    rgba(139, 0, 0, 0.18),
+                    transparent 35%
+                ),
+                #050505;
+
+            color: var(--white);
+
+            font-family: "Inter", sans-serif;
+
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+
+            position: fixed;
+
+            inset: 0;
+
+            pointer-events: none;
+
+            background-image:
+                linear-gradient(
+                    rgba(255, 255, 255, 0.015) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(255, 255, 255, 0.015) 1px,
+                    transparent 1px
+                );
+
+            background-size: 60px 60px;
+
+            mask-image: linear-gradient(
+                to bottom,
+                black,
+                transparent 90%
+            );
+
+            z-index: -2;
+        }
+
+        ::selection {
+            background: var(--red);
+            color: white;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        .container {
+            width: min(1200px, 92%);
+            margin: auto;
+        }
+
+        /* =========================================================
+           SCROLLBAR
+           ========================================================= */
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #050505;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #6f0000;
+            border-radius: 20px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a00000;
+        }
+
+        /* =========================================================
+           LOADER
+           ========================================================= */
+
+        #loader {
+            position: fixed;
+
+            inset: 0;
+
+            background: #030303;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            flex-direction: column;
+
+            z-index: 99999;
+
+            transition:
+                opacity 0.8s ease,
+                visibility 0.8s ease;
+        }
+
+        #loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-logo {
+            font-family: "Orbitron", sans-serif;
+
+            font-size: clamp(45px, 8vw, 90px);
+
+            font-weight: 900;
+
+            letter-spacing: 8px;
+
+            color: white;
+
+            text-shadow:
+                0 0 10px rgba(255, 255, 255, 0.1),
+                0 0 40px rgba(139, 0, 0, 0.5);
+        }
+
+        .loader-logo span {
+            color: var(--red-light);
+        }
+
+        .loader-bar {
+            width: 220px;
+            height: 3px;
+
+            margin-top: 30px;
+
+            background: #181818;
+
+            overflow: hidden;
+        }
+
+        .loader-progress {
+            width: 0%;
+            height: 100%;
+
+            background: var(--red-bright);
+
+            animation: loading 1.8s ease forwards;
+        }
+
+        @keyframes loading {
+            to {
+                width: 100%;
+            }
+        }
+
+        /* =========================================================
+           PARTICLES
+           ========================================================= */
+
+        #particles {
+            position: fixed;
+
+            inset: 0;
+
+            pointer-events: none;
+
+            z-index: -1;
+
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+
+            width: 2px;
+            height: 2px;
+
+            background: rgba(180, 0, 0, 0.6);
+
+            border-radius: 50%;
+
+            animation:
+                floatParticle linear infinite;
+        }
+
+        @keyframes floatParticle {
+            from {
+                transform:
+                    translateY(110vh)
+                    translateX(0);
+            }
+
+            to {
+                transform:
+                    translateY(-10vh)
+                    translateX(80px);
+            }
+        }
+
+        /* =========================================================
+           NAVBAR
+           ========================================================= */
+
+        .navbar {
+            position: fixed;
+
+            top: 0;
+            left: 0;
+            right: 0;
+
+            height: var(--nav-height);
+
+            z-index: 5000;
+
+            background:
+                rgba(3, 3, 3, 0.82);
+
+            backdrop-filter: blur(18px);
+
+            border-bottom:
+                1px solid rgba(255, 255, 255, 0.06);
+
+            transition: 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background:
+                rgba(3, 3, 3, 0.95);
+
+            box-shadow:
+                0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-inner {
+            height: 100%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            font-family: "Orbitron", sans-serif;
+
+            font-weight: 900;
+
+            letter-spacing: 2px;
+
+            font-size: 21px;
+        }
+
+        .brand-mark {
+            width: 38px;
+            height: 38px;
+
+            display: grid;
+            place-items: center;
+
+            border:
+                1px solid rgba(180, 0, 0, 0.5);
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #240000,
+                    #080808
+                );
+
+            color: #ff1616;
+
+            font-weight: 900;
+
+            transform: skew(-7deg);
+
+            box-shadow:
+                0 0 25px rgba(139, 0, 0, 0.2);
+        }
+
+        .brand span {
+            color: var(--red-light);
+        }
+
+        .nav-links {
+            display: flex;
+
+            align-items: center;
+
+            gap: 28px;
+        }
+
+        .nav-links a {
+            position: relative;
+
+            color: #a9a9a9;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.7px;
+
+            transition: 0.25s ease;
+        }
+
+        .nav-links a::after {
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            bottom: -8px;
+
+            width: 0;
+            height: 2px;
+
+            background: var(--red-bright);
+
+            transition: 0.25s ease;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-join {
+            padding: 11px 18px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #970000,
+                    #550000
+                );
+
+            border:
+                1px solid rgba(255, 255, 255, 0.08);
+
+            border-radius: 9px;
+
+            color: white !important;
+
+            box-shadow:
+                0 8px 25px rgba(139, 0, 0, 0.22);
+        }
+
+        .nav-join::after {
+            display: none;
+        }
+
+        .mobile-menu {
+            display: none;
+
+            width: 42px;
+            height: 42px;
+
+            border:
+                1px solid var(--border);
+
+            background: #0d0d0d;
+
+            color: white;
+
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            font-size: 20px;
+        }
+
+        /* =========================================================
+           HERO
+           ========================================================= */
+
+        .hero {
+            min-height: 100vh;
+
+            display: flex;
+
+            align-items: center;
+
+            position: relative;
+
+            padding-top: 100px;
+
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "";
+
+            position: absolute;
+
+            width: 650px;
+            height: 650px;
+
+            left: 50%;
+            top: 35%;
+
+            transform: translate(-50%, -50%);
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(139, 0, 0, 0.2),
+                    transparent 68%
+                );
+
+            filter: blur(15px);
+
+            pointer-events: none;
+        }
+
+        .hero-grid {
+            display: grid;
+
+            grid-template-columns:
+                1.1fr
+                0.9fr;
+
+            gap: 70px;
+
+            align-items: center;
+        }
+
+        .hero-content {
+            position: relative;
+
+            z-index: 2;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            padding: 8px 13px;
+
+            border:
+                1px solid rgba(180, 0, 0, 0.3);
+
+            background:
+                rgba(100, 0, 0, 0.09);
+
+            border-radius: 999px;
+
+            color: #d6d6d6;
+
+            font-size: 11px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1.6px;
+
+            margin-bottom: 25px;
+        }
+
+        .eyebrow-dot {
+            width: 7px;
+            height: 7px;
+
+            background: #e00000;
+
+            border-radius: 50%;
+
+            box-shadow:
+                0 0 12px #e00000;
+
+            animation: pulseDot 1.5s infinite;
+        }
+
+        @keyframes pulseDot {
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.45;
+                transform: scale(0.75);
+            }
+        }
+
+        .hero h1 {
+            font-family: "Orbitron", sans-serif;
+
+            font-size: clamp(50px, 8vw, 100px);
+
+            line-height: 0.95;
+
+            font-weight: 900;
+
+            letter-spacing: -4px;
+
+            margin-bottom: 28px;
+        }
+
+        .hero h1 .red {
+            color: var(--red-bright);
+
+            text-shadow:
+                0 0 45px rgba(180, 0, 0, 0.25);
+        }
+
+        .hero-description {
+            max-width: 650px;
+
+            color: #a9a9a9;
+
+            font-size: 17px;
+
+            line-height: 1.8;
+
+            margin-bottom: 35px;
+        }
+
+        .hero-buttons {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 13px;
+        }
+
+        .btn {
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 9px;
+
+            min-height: 48px;
+
+            padding:
+                0 20px;
+
+            border-radius: 10px;
+
+            border:
+                1px solid rgba(255, 255, 255, 0.08);
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.5px;
+
+            cursor: pointer;
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease,
+                background 0.25s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .btn-primary {
+            background:
+                linear-gradient(
+                    135deg,
+                    #a40000,
+                    #5c0000
+                );
+
+            box-shadow:
+                0 10px 30px rgba(139, 0, 0, 0.25);
+        }
+
+        .btn-primary:hover {
+            box-shadow:
+                0 15px 40px rgba(139, 0, 0, 0.4);
+        }
+
+        .btn-secondary {
+            background: #0d0d0d;
+
+            color: #d0d0d0;
+        }
+
+        .btn-secondary:hover {
+            background: #151515;
+        }
+
+        /* =========================================================
+           SERVER CARD
+           ========================================================= */
+
+        .server-card {
+            position: relative;
+
+            padding: 26px;
+
+            border:
+                1px solid rgba(255, 255, 255, 0.08);
+
+            border-radius: 22px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(20, 20, 20, 0.9),
+                    rgba(8, 8, 8, 0.95)
+                );
+
+            box-shadow:
+                var(--shadow);
+
+            overflow: hidden;
+        }
+
+        .server-card::before {
+            content: "";
+
+            position: absolute;
+
+            width: 220px;
+            height: 220px;
+
+            top: -120px;
+            right: -100px;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(180, 0, 0, 0.25),
+                    transparent 70%
+                );
+        }
+
+        .server-top {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 25px;
+        }
+
+        .server-label {
+            color: #858585;
+
+            font-size: 11px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1.5px;
+        }
+
+        .online-status {
+            display: flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            font-size: 11px;
+
+            color: #bcbcbc;
+        }
+
+        .online-dot {
+            width: 8px;
+            height: 8px;
+
+            border-radius: 50%;
+
+            background: #28d45b;
+
+            box-shadow:
+                0 0 12px rgba(40, 212, 91, 0.7);
+        }
+
+        .server-ip {
+            padding: 20px;
+
+            background:
+                #080808;
+
+            border:
+                1px solid rgba(255, 255, 255, 0.06);
+
+            border-radius: 14px;
+
+            text-align: center;
+
+            margin-bottom: 18px;
+        }
+
+        .server-ip small {
+            display: block;
+
+            color: #666;
+
+            font-size: 10px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 2px;
+
+            margin-bottom: 8px;
+        }
+
+        .server-ip strong {
+            font-family: "Orbitron", sans-serif;
+
+            font-size: 20px;
+
+            letter-spacing: 1px;
+        }
+
+        .server-stats {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 10px;
+        }
+
+        .server-stat {
+            padding: 15px;
+
+            border:
+                1px solid rgba(255, 255, 255, 0.05);
+
+            border-radius: 12px;
+
+            background: #0b0b0b;
+        }
+
+        .server-stat span {
+            display: block;
+
+            color: #626262;
+
+            font-size: 10px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+
+            margin-bottom: 6px;
+        }
+
+        .server-stat strong {
+            font-size: 15px;
+        }
+
+        /* =========================================================
+           SECTION
+           ========================================================= */
+
+        section {
+            padding: 115px 0;
+            position: relative;
+        }
+
+        .section-heading {
+            max-width: 700px;
+
+            margin-bottom: 50px;
+        }
+
+        .section-tag {
+            color: #b00000;
+
+            font-size: 11px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 2.5px;
+
+            font-weight: 800;
+
+            margin-bottom: 12px;
+        }
+
+        .section-heading h2 {
+            font-family: "Orbitron", sans-serif;
+
+            font-size:
+                clamp(30px, 5vw, 52px);
+
+            line-height: 1.1;
+
+            margin-bottom: 17px;
+        }
+
+        .section-heading p {
+            color: #858585;
+
+            line-height: 1.8;
+
+            font-size: 15px;
+        }
+
+        /* =========================================================
+           ABOUT
+           ========================================================= */
+
+        .about-grid {
+            display: grid;
+
+            grid-template-columns:
+                1fr
+                1fr;
+
+            gap: 20px;
+        }
+
+        .about-card {
+            padding: 35px;
+
+            border:
+                1px solid var(--border);
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #101010,
+                    #080808
+                );
+
+            border-radius: var(--radius);
+
+            transition: 0.3s ease;
+        }
+
+        .about-card:hover {
+            transform: translateY(-5px);
+
+            border-color:
+                rgba(180, 0, 0, 0.3);
+
+            box-shadow:
+                var(--red-shadow);
+        }
+
+        .about-icon {
+            width: 50px;
+            height: 50px;
+
+            display: grid;
+            place-items: center;
+
+            background:
+                #190000;
+
+            border:
+                1px solid rgba(180, 0, 0, 0.25);
+
+            border-radius: 13px;
+
+            color: #ef1111;
+
+            font-size: 22px;
+
+            margin-bottom: 22px;
+        }
+
+        .about-card h3 {
+            font-size: 20px;
+
+            margin-bottom: 12px;
+        }
+
+        .about-card p {
+            color: #888;
+
+            line-height: 1.8;
+
+            font-size: 14px;
+        }
+
+        /* =========================================================
+           FEATURES
+           ========================================================= */
+
+        .features-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 17px;
+        }
+
+        .feature-card {
+            position: relative;
+
+            padding: 28px;
+
+            min-height: 210px;
+
+            background:
+                #0b0b0b;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: var(--radius);
+
+            overflow: hidden;
+
+            transition:
+                transform 0.3s ease,
+                border 0.3s ease;
+        }
+
+        .feature-card::after {
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            height: 2px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    #900000,
+                    transparent
+                );
+
+            transform:
+                translateX(-100%);
+
+            transition: 0.5s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-6px);
+
+            border-color:
+                rgba(160, 0, 0, 0.3);
+        }
+
+        .feature-card:hover::after {
+            transform:
+                translateX(100%);
+        }
+
+        .feature-number {
+            position: absolute;
+
+            right: 20px;
+            top: 17px;
+
+            font-family: "Orbitron";
+
+            font-size: 40px;
+
+            color:
+                rgba(255, 255, 255, 0.025);
+        }
+
+        .feature-icon {
+            font-size: 27px;
+
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 10px;
+
+            font-size: 17px;
+        }
+
+        .feature-card p {
+            color: #777;
+
+            font-size: 13px;
+
+            line-height: 1.7;
+        }
+
+        /* =========================================================
+           PVP BANNER
+           ========================================================= */
+
+        .pvp-banner {
+            position: relative;
+
+            padding: 70px 55px;
+
+            overflow: hidden;
+
+            border:
+                1px solid rgba(160, 0, 0, 0.3);
+
+            border-radius: 25px;
+
+            background:
+                linear-gradient(
+                    110deg,
+                    #190000,
+                    #0b0b0b 55%,
+                    #060606
+                );
+
+            box-shadow:
+                0 30px 80px rgba(0, 0, 0, 0.5);
+        }
+
+        .pvp-banner::before {
+            content: "PVP";
+
+            position: absolute;
+
+            right: -20px;
+            bottom: -70px;
+
+            font-family: "Orbitron";
+
+            font-size: 220px;
+
+            font-weight: 900;
+
+            color:
+                rgba(255, 255, 255, 0.025);
+        }
+
+        .pvp-banner h2 {
+            position: relative;
+
+            font-family: "Orbitron";
+
+            font-size:
+                clamp(32px, 5vw, 60px);
+
+            margin-bottom: 17px;
+        }
+
+        .pvp-banner p {
+            position: relative;
+
+            max-width: 650px;
+
+            color: #999;
+
+            line-height: 1.8;
+
+            margin-bottom: 27px;
+        }
+
+        /* =========================================================
+           RAIDING
+           ========================================================= */
+
+        .raid-layout {
+            display: grid;
+
+            grid-template-columns:
+                0.85fr
+                1.15fr;
+
+            gap: 60px;
+
+            align-items: center;
+        }
+
+        .raid-box {
+            min-height: 420px;
+
+            border:
+                1px solid rgba(180, 0, 0, 0.2);
+
+            border-radius: 25px;
+
+            background:
+                radial-gradient(
+                    circle at center,
+                    rgba(139, 0, 0, 0.16),
+                    transparent 60%
+                ),
+                #080808;
+
+            display: grid;
+
+            place-items: center;
+
+            position: relative;
+
+            overflow: hidden;
+        }
+
+        .raid-cross {
+            width: 190px;
+            height: 190px;
+
+            border:
+                1px solid rgba(180, 0, 0, 0.35);
+
+            transform:
+                rotate(45deg);
+
+            display: grid;
+
+            place-items: center;
+
+            box-shadow:
+                0 0 80px rgba(139, 0, 0, 0.16);
+        }
+
+        .raid-cross-inner {
+            width: 120px;
+            height: 120px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #260000,
+                    #090909
+                );
+
+            border:
+                1px solid rgba(180, 0, 0, 0.3);
+
+            display: grid;
+
+            place-items: center;
+
+            color: #ef1111;
+
+            font-size: 45px;
+
+            transform:
+                rotate(-45deg);
+
+            border-radius: 12px;
+        }
+
+        .raid-list {
+            display: grid;
+
+            gap: 13px;
+
+            margin-top: 30px;
+        }
+
+        .raid-item {
+            display: flex;
+
+            gap: 15px;
+
+            align-items: flex-start;
+
+            padding: 17px;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 13px;
+
+            background: #0a0a0a;
+        }
+
+        .raid-item-icon {
+            color: #e00000;
+
+            font-size: 18px;
+        }
+
+        .raid-item strong {
+            display: block;
+
+            margin-bottom: 4px;
+        }
+
+        .raid-item span {
+            color: #707070;
+
+            font-size: 12px;
+
+            line-height: 1.6;
+        }
+
+        /* =========================================================
+           SEASON
+           ========================================================= */
+
+        .season-wrapper {
+            position: relative;
+
+            padding: 50px;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 25px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #111111,
+                    #080808
+                );
+
+            overflow: hidden;
+        }
+
+        .season-wrapper::before {
+            content: "";
+
+            position: absolute;
+
+            width: 500px;
+            height: 500px;
+
+            right: -200px;
+            top: -250px;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(139, 0, 0, 0.2),
+                    transparent 70%
+                );
+        }
+
+        .season-header {
+            position: relative;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: flex-end;
+
+            gap: 30px;
+
+            margin-bottom: 40px;
+        }
+
+        .season-number {
+            color: #e00000;
+
+            font-family: "Orbitron";
+
+            font-size: 13px;
+
+            letter-spacing: 3px;
+
+            margin-bottom: 10px;
+        }
+
+        .season-header h2 {
+            font-family: "Orbitron";
+
+            font-size:
+                clamp(30px, 5vw, 55px);
+        }
+
+        .season-header p {
+            max-width: 440px;
+
+            color: #777;
+
+            font-size: 13px;
+
+            line-height: 1.8;
+        }
+
+        .season-grid {
+            position: relative;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 12px;
+        }
+
+        .season-item {
+            padding: 22px;
+
+            border:
+                1px solid rgba(255, 255, 255, 0.05);
+
+            background:
+                rgba(0, 0, 0, 0.25);
+
+            border-radius: 14px;
+        }
+
+        .season-item b {
+            display: block;
+
+            margin-bottom: 8px;
+        }
+
+        .season-item span {
+            color: #696969;
+
+            font-size: 12px;
+
+            line-height: 1.6;
+        }
+
+        /* =========================================================
+           RANKS
+           ========================================================= */
+
+        .ranks-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 15px;
+
+            align-items: stretch;
+        }
+
+        .rank-card {
+            position: relative;
+
+            padding: 30px 25px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #101010,
+                    #080808
+                );
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 19px;
+
+            overflow: hidden;
+
+            transition: 0.3s ease;
+        }
+
+        .rank-card:hover {
+            transform:
+                translateY(-8px);
+
+            border-color:
+                rgba(180, 0, 0, 0.35);
+
+            box-shadow:
+                0 25px 60px rgba(0, 0, 0, 0.45);
+        }
+
+        .rank-card.featured {
+            border-color:
+                rgba(180, 0, 0, 0.5);
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #190000,
+                    #0a0a0a
+                );
+        }
+
+        .rank-badge {
+            display: inline-flex;
+
+            padding: 6px 9px;
+
+            border-radius: 7px;
+
+            background:
+                rgba(180, 0, 0, 0.12);
+
+            color: #d00000;
+
+            font-size: 9px;
+
+            font-weight: 800;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1.5px;
+
+            margin-bottom: 22px;
+        }
+
+        .rank-name {
+            font-family: "Orbitron";
+
+            font-size: 27px;
+
+            margin-bottom: 8px;
+        }
+
+        .rank-description {
+            color: #717171;
+
+            font-size: 12px;
+
+            line-height: 1.7;
+
+            min-height: 60px;
+
+            margin-bottom: 22px;
+        }
+
+        .rank-features {
+            list-style: none;
+
+            display: grid;
+
+            gap: 10px;
+        }
+
+        .rank-features li {
+            color: #a2a2a2;
+
+            font-size: 12px;
+
+            display: flex;
+
+            gap: 8px;
+        }
+
+        .rank-features li::before {
+            content: "✓";
+
+            color: #d00000;
+
+            font-weight: 900;
+        }
+
+        .rank-button {
+            display: block;
+
+            text-align: center;
+
+            margin-top: 25px;
+
+            padding: 12px;
+
+            border:
+                1px solid rgba(180, 0, 0, 0.25);
+
+            border-radius: 9px;
+
+            color: white;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            transition: 0.25s ease;
+        }
+
+        .rank-button:hover {
+            background: #790000;
+        }
+
+        /* =========================================================
+           COMMUNITY
+           ========================================================= */
+
+        .community {
+            background:
+                linear-gradient(
+                    180deg,
+                    transparent,
+                    rgba(60, 0, 0, 0.06),
+                    transparent
+                );
+        }
+
+        .community-grid {
+            display: grid;
+
+            grid-template-columns:
+                1fr
+                1fr;
+
+            gap: 20px;
+        }
+
+        .community-card {
+            padding: 35px;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 20px;
+
+            background: #0a0a0a;
+
+            transition: 0.3s ease;
+        }
+
+        .community-card:hover {
+            border-color:
+                rgba(180, 0, 0, 0.25);
+        }
+
+        .community-card h3 {
+            font-family: "Orbitron";
+
+            font-size: 23px;
+
+            margin-bottom: 15px;
+        }
+
+        .community-card p {
+            color: #7e7e7e;
+
+            line-height: 1.8;
+
+            font-size: 13px;
+
+            margin-bottom: 22px;
+        }
+
+        /* =========================================================
+           RULES
+           ========================================================= */
+
+        .rules-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 14px;
+        }
+
+        .rule {
+            display: flex;
+
+            gap: 18px;
+
+            padding: 22px;
+
+            background: #0a0a0a;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 14px;
+        }
+
+        .rule-number {
+            min-width: 36px;
+            height: 36px;
+
+            display: grid;
+
+            place-items: center;
+
+            border-radius: 10px;
+
+            background:
+                #1c0000;
+
+            color: #d50000;
+
+            font-family: "Orbitron";
+
+            font-size: 11px;
+        }
+
+        .rule h4 {
+            margin-bottom: 6px;
+        }
+
+        .rule p {
+            color: #6e6e6e;
+
+            font-size: 12px;
+
+            line-height: 1.6;
+        }
+
+        /* =========================================================
+           EVENTS
+           ========================================================= */
+
+        .events-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 15px;
+        }
+
+        .event-card {
+            position: relative;
+
+            min-height: 280px;
+
+            padding: 28px;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #111,
+                    #080808
+                );
+
+            overflow: hidden;
+        }
+
+        .event-card::before {
+            content: "";
+
+            position: absolute;
+
+            width: 160px;
+            height: 160px;
+
+            right: -80px;
+            top: -80px;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(180, 0, 0, 0.25),
+                    transparent 70%
+                );
+        }
+
+        .event-icon {
+            font-size: 35px;
+
+            margin-bottom: 35px;
+        }
+
+        .event-card h3 {
+            font-family: "Orbitron";
+
+            font-size: 19px;
+
+            margin-bottom: 12px;
+        }
+
+        .event-card p {
+            color: #747474;
+
+            font-size: 12px;
+
+            line-height: 1.7;
+        }
+
+        /* =========================================================
+           FAQ
+           ========================================================= */
+
+        .faq {
+            max-width: 850px;
+
+            margin: auto;
+        }
+
+        .faq-item {
+            border:
+                1px solid var(--border);
+
+            background: #0a0a0a;
+
+            border-radius: 13px;
+
+            margin-bottom: 10px;
+
+            overflow: hidden;
+        }
+
+        .faq-question {
+            width: 100%;
+
+            padding: 20px;
+
+            border: 0;
+
+            background: transparent;
+
+            color: white;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            text-align: left;
+
+            cursor: pointer;
+
+            font-size: 14px;
+
+            font-weight: 700;
+        }
+
+        .faq-question span {
+            color: #e00000;
+
+            font-size: 20px;
+
+            transition: 0.3s ease;
+        }
+
+        .faq-answer {
+            max-height: 0;
+
+            overflow: hidden;
+
+            transition:
+                max-height 0.35s ease;
+        }
+
+        .faq-answer p {
+            padding:
+                0 20px 20px;
+
+            color: #707070;
+
+            font-size: 13px;
+
+            line-height: 1.8;
+        }
+
+        .faq-item.active
+        .faq-question span {
+            transform:
+                rotate(45deg);
+        }
+
+        .faq-item.active
+        .faq-answer {
+            max-height: 300px;
+        }
+
+        /* =========================================================
+           CTA
+           ========================================================= */
+
+        .cta {
+            padding-bottom: 130px;
+        }
+
+        .cta-box {
+            position: relative;
+
+            text-align: center;
+
+            padding: 85px 30px;
+
+            border:
+                1px solid rgba(180, 0, 0, 0.3);
+
+            border-radius: 25px;
+
+            background:
+                radial-gradient(
+                    circle at center,
+                    rgba(130, 0, 0, 0.2),
+                    transparent 55%
+                ),
+                #090909;
+
+            overflow: hidden;
+        }
+
+        .cta-box h2 {
+            font-family: "Orbitron";
+
+            font-size:
+                clamp(35px, 6vw, 70px);
+
+            margin-bottom: 18px;
+        }
+
+        .cta-box p {
+            color: #777;
+
+            max-width: 650px;
+
+            margin:
+                0 auto 30px;
+
+            line-height: 1.8;
+        }
+
+        .cta-buttons {
+            display: flex;
+
+            justify-content: center;
+
+            flex-wrap: wrap;
+
+            gap: 12px;
+        }
+
+        /* =========================================================
+           FOOTER
+           ========================================================= */
+
+        footer {
+            padding: 55px 0 30px;
+
+            border-top:
+                1px solid rgba(255, 255, 255, 0.05);
+
+            background: #030303;
+        }
+
+        .footer-grid {
+            display: grid;
+
+            grid-template-columns:
+                1.5fr
+                1fr
+                1fr
+                1fr;
+
+            gap: 40px;
+
+            padding-bottom: 45px;
+        }
+
+        .footer-brand p {
+            color: #646464;
+
+            max-width: 330px;
+
+            line-height: 1.8;
+
+            font-size: 12px;
+
+            margin-top: 15px;
+        }
+
+        .footer-column h4 {
+            font-size: 12px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1.5px;
+
+            margin-bottom: 18px;
+        }
+
+        .footer-column a {
+            display: block;
+
+            color: #666;
+
+            font-size: 12px;
+
+            margin-bottom: 11px;
+
+            transition: 0.2s ease;
+        }
+
+        .footer-column a:hover {
+            color: #e00000;
+
+            transform:
+                translateX(3px);
+        }
+
+        .footer-bottom {
+            padding-top: 25px;
+
+            border-top:
+                1px solid rgba(255, 255, 255, 0.05);
+
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            color: #4d4d4d;
+
+            font-size: 11px;
+        }
+
+        /* =========================================================
+           COPY NOTIFICATION
+           ========================================================= */
+
+        .toast {
+            position: fixed;
+
+            bottom: 25px;
+            right: 25px;
+
+            padding: 14px 18px;
+
+            background: #111;
+
+            border:
+                1px solid rgba(180, 0, 0, 0.35);
+
+            border-radius: 10px;
+
+            color: white;
+
+            font-size: 12px;
+
+            box-shadow:
+                0 15px 40px rgba(0, 0, 0, 0.5);
+
+            transform:
+                translateY(100px);
+
+            opacity: 0;
+
+            transition: 0.3s ease;
+
+            z-index: 9000;
+        }
+
+        .toast.show {
+            transform:
+                translateY(0);
+
+            opacity: 1;
+        }
+
+        /* =========================================================
+           REVEAL
+           ========================================================= */
+
+        .reveal {
+            opacity: 0;
+
+            transform:
+                translateY(30px);
+
+            transition:
+                opacity 0.7s ease,
+                transform 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+
+            transform:
+                translateY(0);
+        }
+
+        /* =========================================================
+           RESPONSIVE
+           ========================================================= */
+
+        @media (max-width: 1000px) {
+
+            .hero-grid {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .hero-content {
+                text-align: center;
+            }
+
+            .hero-description {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .features-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .ranks-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .events-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .raid-layout {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 760px) {
+
+            :root {
+                --nav-height: 68px;
+            }
+
+            .nav-links {
+                position: fixed;
+
+                top: var(--nav-height);
+                left: 0;
+                right: 0;
+
+                padding: 20px;
+
+                background:
+                    rgba(5, 5, 5, 0.98);
+
+                border-bottom:
+                    1px solid var(--border);
+
+                display: none;
+
+                flex-direction: column;
+
+                align-items: stretch;
+
+                gap: 5px;
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .nav-links a {
+                padding: 13px;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .hero {
+                padding-top: 110px;
+            }
+
+            .hero h1 {
+                letter-spacing: -2px;
+            }
+
+            .hero-description {
+                font-size: 14px;
+            }
+
+            section {
+                padding: 80px 0;
+            }
+
+            .about-grid,
+            .community-grid,
+            .rules-grid {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .features-grid,
+            .events-grid {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .ranks-grid {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .season-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .season-wrapper {
+                padding: 28px;
+            }
+
+            .season-header {
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+            .pvp-banner {
+                padding: 45px 28px;
+            }
+
+            .footer-grid {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+            }
+
+        }
+
+        @media (max-width: 450px) {
+
+            .container {
+                width: 90%;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .server-stats {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .season-grid {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .raid-box {
+                min-height: 300px;
+            }
+
+            .raid-cross {
+                width: 140px;
+                height: 140px;
+            }
+
+            .raid-cross-inner {
+                width: 90px;
+                height: 90px;
+
+                font-size: 32px;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================================================
+         LOADER
+         ========================================================= -->
+
+    <div id="loader">
+
+        <div class="loader-logo">
+            FL<span>O</span>W
+        </div>
+
+        <div class="loader-bar">
+            <div class="loader-progress"></div>
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         PARTICLES
+         ========================================================= -->
+
+    <div id="particles"></div>
+
+
+    <!-- =========================================================
+         NAVIGATION
+         ========================================================= -->
+
+    <header class="navbar" id="navbar">
+
+        <div class="container nav-inner">
+
+            <a href="#home" class="brand">
+
+                <div class="brand-mark">
+                    F
+                </div>
+
+                FL<span>O</span>W SMP
+
+            </a>
+
+
+            <nav class="nav-links" id="navLinks">
+
+                <a href="#home">
+                    Home
+                </a>
+
+                <a href="#about">
+                    About
+                </a>
+
+                <a href="#features">
+                    Features
+                </a>
+
+                <a href="#raiding">
+                    Raiding
+                </a>
+
+                <a href="#seasons">
+                    Seasons
+                </a>
+
+                <a href="#ranks">
+                    Ranks
+                </a>
+
+                <a href="#community">
+                    Community
+                </a>
+
+                <a href="#faq">
+                    FAQ
+                </a>
+
+                <a
+                    class="nav-join"
+                    href="https://discord.gg/u4RcYryTAp"
+                    target="_blank"
+                >
+                    Join Discord
+                </a>
+
+            </nav>
+
+
+            <button
+                class="mobile-menu"
+                id="mobileMenu"
+                aria-label="Open menu"
+            >
+                ☰
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================================================
+         HERO
+         ========================================================= -->
+
+    <main>
+
+        <section class="hero" id="home">
+
+            <div class="container hero-grid">
+
+                <div class="hero-content reveal">
+
+                    <div class="eyebrow">
+
+                        <span class="eyebrow-dot"></span>
+
+                        Minecraft Semi-Anarchy
+
+                    </div>
+
+
+                    <h1>
+
+                        WELCOME TO
+                        <br>
+
+                        <span class="red">
+                            FLOW SMP
+                        </span>
+
+                    </h1>
+
+
+                    <p class="hero-description">
+
+                        A competitive Minecraft Semi-Anarchy experience
+                        built around PvP, raiding, survival, progression
+                        and community. Gear up fast, find enemy bases,
+                        build your legacy and fight for your place on
+                        FLOW SMP.
+
+                    </p>
+
+
+                    <div class="hero-buttons">
+
+                        <a
+                            href="https://discord.gg/u4RcYryTAp"
+                            target="_blank"
+                            class="btn btn-primary"
+                        >
+                            ⚔ Join the Community
+                        </a>
+
+
+                        <a
+                            href="https://flow-smp.tebex.store/"
+                            target="_blank"
+                            class="btn btn-secondary"
+                        >
+                            🛒 Visit Store
+                        </a>
+
+
+                        <button
+                            class="btn btn-secondary"
+                            id="copyHeroIP"
+                        >
+                            📋 Copy Server IP
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SERVER STATUS CARD -->
+
+                <div class="server-card reveal">
+
+                    <div class="server-top">
+
+                        <div>
+
+                            <div class="server-label">
+                                Server Status
+                            </div>
+
+                        </div>
+
+                        <div class="online-status">
+
+                            <span class="online-dot"></span>
+
+                            Online
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="server-ip">
+
+                        <small>
+                            Server Address
+                        </small>
+
+                        <strong>
+                            flowsmp.my-smp.net
+                        </strong>
+
+                    </div>
+
+
+                    <div class="server-stats">
+
+                        <div class="server-stat">
+
+                            <span>
+                                Status
+                            </span>
+
+                            <strong>
+                                ● Online
+                            </strong>
+
+                        </div>
+
+
+                        <div class="server-stat">
+
+                            <span>
+                                Mode
+                            </span>
+
+                            <strong>
+                                Semi-Anarchy
+                            </strong>
+
+                        </div>
+
+
+                        <div class="server-stat">
+
+                            <span>
+                                Gameplay
+                            </span>
+
+                            <strong>
+                                PvP / Raid
+                            </strong>
+
+                        </div>
+
+
+                        <div class="server-stat">
+
+                            <span>
+                                Economy
+                            </span>
+
+                            <strong>
+                                Non-Economy
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             ABOUT
+             ===================================================== -->
+
+        <section id="about">
+
+            <div class="container">
+
+                <div class="section-heading reveal">
+
+                    <div class="section-tag">
+                        01 / About
+                    </div>
+
+                    <h2>
+                        MORE THAN
+                        <span style="color:#b00000;">
+                            SURVIVAL.
+                        </span>
+                    </h2>
+
+                    <p>
+
+                        FLOW SMP is built for players who want Minecraft
+                        to feel dangerous again. No complicated economy,
+                        no endless grinding and no reason to hide forever.
+                        Our goal is to create a competitive environment
+                        where players interact, fight, raid and create
+                        stories together.
+
+                    </p>
+
+                </div>
+
+
+                <div class="about-grid">
+
+                    <article class="about-card reveal">
+
+                        <div class="about-icon">
+                            ⚔
+                        </div>
+
+                        <h3>
+                            PvP Focused
+                        </h3>
+
+                        <p>
+
+                            Combat is at the heart of FLOW SMP.
+                            Prepare your gear, improve your mechanics
+                            and prove yourself against other players.
+
+                        </p>
+
+                    </article>
+
+
+                    <article class="about-card reveal">
+
+                        <div class="about-icon">
+                            💀
+                        </div>
+
+                        <h3>
+                            Semi-Anarchy
+                        </h3>
+
+                        <p>
+
+                            You have much more freedom than on a
+                            traditional survival server. Build,
+                            explore, fight and raid while playing
+                            within the server's core rules.
+
+                        </p>
+
+                    </article>
+
+
+                    <article class="about-card reveal">
+
+                        <div class="about-icon">
+                            🏴
+                        </div>
+
+                        <h3>
+                            Raid The Enemy
+                        </h3>
+
+                        <p>
+
+                            Bases are not guaranteed to remain hidden.
+                            Track players, discover locations and
+                            prepare your team for the perfect raid.
+
+                        </p>
+
+                    </article>
+
+
+                    <article class="about-card reveal">
+
+                        <div class="about-icon">
+                            🌎
+                        </div>
+
+                        <h3>
+                            Seasonal Gameplay
+                        </h3>
+
+                        <p>
+
+                            Every season can bring new mechanics,
+                            plugins, challenges and gameplay changes
+                            that keep FLOW SMP fresh.
+
+                        </p>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             FEATURES
+             ===================================================== -->
+
+        <section id="features">
+
+            <div class="container">
+
+                <div class="section-heading reveal">
+
+                    <div class="section-tag">
+                        02 / Features
+                    </div>
+
+                    <h2>
+                        BUILT FOR
+                        <span style="color:#b00000;">
+                            ACTION.
+                        </span>
+                    </h2>
+
+                    <p>
+
+                        Every part of FLOW SMP is designed to create
+                        more player interaction and less unnecessary
+                        grinding.
+
+                    </p>
+
+                </div>
+
+
+                <div class="features-grid">
+
+                    <article class="feature-card reveal">
+
+                        <div class="feature-number">
+                            01
+                        </div>
+
+                        <div class="feature-icon">
+                            ⚔️
+                        </div>
+
+                        <h3>
+                            Competitive PvP
+                        </h3>
+
+                        <p>
+                            Fight other players, improve your combat
+                            skills and become one of the strongest
+                            players of the season.
+                        </p>
+
+                    </article>
+
+
+                    <article class="feature-card reveal">
+
+                        <div class="feature-number">
+                            02
+                        </div>
+
+                        <div class="feature-icon">
+                            💥
+                        </div>
+
+                        <h3>
+                            Base Raiding
+                        </h3>
+
+                        <p>
+                            Discover enemy bases and turn preparation
+                            into massive raids.
+                        </p>
+
+                    </article>
+
+
+                    <article class="feature-card reveal">
+
+                        <div class="feature-number">
+                            03
+                        </div>
+
+                        <div class="feature-icon">
+                            🚀
+                        </div>
+
+                        <h3>
+                            Fast Gear Up
+                        </h3>
+
+                        <p>
+                            Custom systems help players obtain gear
+                            faster so the server can focus on PvP.
+                        </p>
+
+                    </article>
+
+
+                    <article class="feature-card reveal">
+
+                        <div class="feature-number">
+                            04
+                        </div>
+
+                        <div class="feature-icon">
+                            🌎
+                        </div>
+
+                        <h3>
+                            Compact Border
+                        </h3>
+
+                        <p>
+                            A smaller playable area means players
+                            are easier to find and bases are easier
+                            to discover.
+                        </p>
+
+                    </article>
+
+
+                    <article class="feature-card reveal">
+
+                        <div class="feature-number">
+                            05
+                        </div>
+
+                        <div class="feature-icon">
+                            🧪
+                        </div>
+
+                        <h3>
+                            Custom Plugins
+                        </h3>
+
+                        <p>
+                            FLOW SMP uses custom gameplay systems and
+                            seasonal mechanics to create a unique
+                            experience.
+                        </p>
+
+                    </article>
+
+
+                    <article class="feature-card reveal">
+
+                        <div class="feature-number">
+                            06
+                        </div>
+
+                        <div class="feature-icon">
+                            🔥
+                        </div>
+
+                        <h3>
+                            Constant Updates
+                        </h3>
+
+                        <p>
+                            New seasons can introduce new features,
+                            mechanics, events and ways to play.
+                        </p>
+
+                    </article>
+
+
+                    <article class="feature-card reveal">
+
+                        <div class="feature-number">
+                            07
+                        </div>
+
+                        <div class="feature-icon">
+                            🧠
+                        </div>
+
+                        <h3>
+                            Strategy
+                        </h3>
+
+                        <p>
+                            Winning isn't only about gear. Information,
+                            teamwork and timing can decide a fight.
+                        </p>
+
+                    </article>
+
+
+                    <article class="feature-card reveal">
+
+                        <div class="feature-number">
+                            08
+                        </div>
+
+                        <div class="feature-icon">
+                            🤝
+                        </div>
+
+                        <h3>
+                            Community
+                        </h3>
+
+                        <p>
+                            Meet players, create teams, form alliances,
+                            make rivals and become part of the server's
+                            story.
+                        </p>
+
+                    </article>
+
+
+                    <article class="feature-card reveal">
+
+                        <div class="feature-number">
+                            09
+                        </div>
+
+                        <div class="feature-icon">
+                            👑
+                        </div>
+
+                        <h3>
+                            Build Your Legacy
+                        </h3>
+
+                        <p>
+                            Every season gives you another opportunity
+                            to become known across the FLOW SMP community.
+                        </p>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             PVP BANNER
+             ===================================================== -->
+
+        <section>
+
+            <div class="container">
+
+                <div class="pvp-banner reveal">
+
+                    <h2>
+                        FIGHT.
+                        <span style="color:#d00000;">
+                            SURVIVE.
+                        </span>
+                        DOMINATE.
+                    </h2>
+
+                    <p>
+
+                        FLOW SMP is designed around player interaction.
+                        The goal isn't to create a peaceful survival
+                        world where everyone hides forever. The goal
+                        is to create an environment where your decisions
+                        matter and every encounter could become a battle.
+
+                    </p>
+
+                    <a
+                        href="https://discord.gg/u4RcYryTAp"
+                        target="_blank"
+                        class="btn btn-primary"
+                    >
+                        Enter The Community →
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             RAIDING
+             ===================================================== -->
+
+        <section id="raiding">
+
+            <div class="container raid-layout">
+
+                <div class="raid-box reveal">
+
+                    <div class="raid-cross">
+
+                        <div class="raid-cross-inner">
+                            ⚔
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="reveal">
+
+                    <div class="section-tag">
+                        03 / Raiding
+                    </div>
+
+                    <h2
+                        style="
+                            font-family:Orbitron;
+                            font-size:clamp(32px,5vw,55px);
+                            margin-bottom:18px;
+                        "
+                    >
+                        NO BASE IS
+                        <span style="color:#b00000;">
+                            GUARANTEED SAFE.
+                        </span>
+                    </h2>
+
+                    <p
+                        style="
+                            color:#777;
+                            line-height:1.8;
+                            font-size:14px;
+                        "
+                    >
+
+                        The smaller world border is an important part
+                        of FLOW SMP. Players are encouraged to explore,
+                        locate enemies and interact with the world.
+
+                        A hidden base might remain hidden for a while,
+                        but the possibility of discovery is always there.
+
+                    </p>
+
+
+                    <div class="raid-list">
+
+                        <div class="raid-item">
+
+                            <div class="raid-item-icon">
+                                ◈
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Discover
+                                </strong>
+
+                                <span>
+                                    Explore the world and search for
+                                    signs of enemy activity.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="raid-item">
+
+                            <div class="raid-item-icon">
+                                ◈
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Prepare
+                                </strong>
+
+                                <span>
+                                    Gather equipment and coordinate
+                                    your team before attacking.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="raid-item">
+
+                            <div class="raid-item-icon">
+                                ◈
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Attack
+                                </strong>
+
+                                <span>
+                                    Turn preparation into action and
+                                    take the fight to your enemies.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="raid-item">
+
+                            <div class="raid-item-icon">
+                                ◈
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Defend
+                                </strong>
+
+                                <span>
+                                    Your own base can be targeted too.
+                                    Build intelligently and protect
+                                    what matters.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             SEASONS
+             ===================================================== -->
+
+        <section id="seasons">
+
+            <div class="container">
+
+                <div class="section-heading reveal">
+
+                    <div class="section-tag">
+                        04 / Seasons
+                    </div>
+
+                    <h2>
+                        EVERY SEASON.
+                        <span style="color:#b00000;">
+                            SOMETHING NEW.
+                        </span>
+                    </h2>
+
+                    <p>
+
+                        FLOW SMP evolves through seasons. New plugins,
+                        new mechanics, new challenges and new ways to
+                        play can be introduced as the server develops.
+
+                    </p>
+
+                </div>
+
+
+                <div class="season-wrapper reveal">
+
+                    <div class="season-header">
+
+                        <div>
+
+                            <div class="season-number">
+                                SEASON SYSTEM
+                            </div>
+
+                            <h2>
+                                NEW SEASON.
+                            </h2>
+
+                        </div>
+
+                        <p>
+
+                            Each season is an opportunity to reset the
+                            battlefield and introduce fresh gameplay.
+                            The exact content can change from season
+                            to season.
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="season-grid">
+
+                        <div class="season-item">
+
+                            <b>
+                                🧩 New Plugins
+                            </b>
+
+                            <span>
+                                New gameplay systems can be introduced.
+                            </span>
+
+                        </div>
+
+
+                        <div class="season-item">
+
+                            <b>
+                                ⚔️ New Combat
+                            </b>
+
+                            <span>
+                                PvP mechanics can evolve between seasons.
+                            </span>
+
+                        </div>
+
+
+                        <div class="season-item">
+
+                            <b>
+                                🎯 New Objectives
+                            </b>
+
+                            <span>
+                                Seasonal challenges can give players
+                                new goals.
+                            </span>
+
+                        </div>
+
+
+                        <div class="season-item">
+
+                            <b>
+                                🎉 New Events
+                            </b>
+
+                            <span>
+                                Community events can change the
+                                battlefield.
+                            </span>
+
+                        </div>
+
+
+                        <div class="season-item">
+
+                            <b>
+                                🌎 New World
+                            </b>
+
+                            <span>
+                                New maps and world configurations
+                                can create a fresh experience.
+                            </span>
+
+                        </div>
+
+
+                        <div class="season-item">
+
+                            <b>
+                                💎 New Items
+                            </b>
+
+                            <span>
+                                Special content can appear in future
+                                seasons.
+                            </span>
+
+                        </div>
+
+
+                        <div class="season-item">
+
+                            <b>
+                                🔥 New Meta
+                            </b>
+
+                            <span>
+                                Every season can develop its own
+                                strategies and playstyles.
+                            </span>
+
+                        </div>
+
+
+                        <div class="season-item">
+
+                            <b>
+                                👑 New Legends
+                            </b>
+
+                            <span>
+                                Every reset creates a new opportunity
+                                to dominate.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             RANKS
+             ===================================================== -->
+
+        <section id="ranks">
+
+            <div class="container">
+
+                <div class="section-heading reveal">
+
+                    <div class="section-tag">
+                        05 / Store Ranks
+                    </div>
+
+                    <h2>
+                        SUPPORT
+                        <span style="color:#b00000;">
+                            FLOW SMP.
+                        </span>
+                    </h2>
+
+                    <p>
+
+                        Our premium ranks provide additional perks and
+                        help support the development and hosting of
+                        FLOW SMP.
+
+                    </p>
+
+                </div>
+
+
+                <div class="ranks-grid">
+
+
+                    <!-- MIST -->
+
+                    <article class="rank-card reveal">
+
+                        <div class="rank-badge">
+                            Premium
+                        </div>
+
+                        <div class="rank-name">
+                            MIST
+                        </div>
+
+                        <div class="rank-description">
+
+                            A premium rank for players who want
+                            additional quality-of-life benefits.
+
+                        </div>
+
+                        <ul class="rank-features">
+
+                            <li>
+                                Premium Rank
+                            </li>
+
+                            <li>
+                                Additional perks
+                            </li>
+
+                            <li>
+                                Exclusive rank identity
+                            </li>
+
+                            <li>
+                                Support FLOW SMP
+                            </li>
+
+                        </ul>
+
+                        <a
+                            href="https://flow-smp.tebex.store/"
+                            target="_blank"
+                            class="rank-button"
+                        >
+                            View Store
+                        </a>
+
+                    </article>
+
+
+                    <!-- ASH -->
+
+                    <article class="rank-card reveal">
+
+                        <div class="rank-badge">
+                            Premium
+                        </div>
+
+                        <div class="rank-name">
+                            ASH
+                        </div>
+
+                        <div class="rank-description">
+
+                            A stronger premium rank for dedicated
+                            members of the community.
+
+                        </div>
+
+                        <ul class="rank-features">
+
+                            <li>
+                                Premium Rank
+                            </li>
+
+                            <li>
+                                Additional benefits
+                            </li>
+
+                            <li>
+                                Quality-of-life perks
+                            </li>
+
+                            <li>
+                                Community support
+                            </li>
+
+                        </ul>
+
+                        <a
+                            href="https://flow-smp.tebex.store/"
+                            target="_blank"
+                            class="rank-button"
+                        >
+                            View Store
+                        </a>
+
+                    </article>
+
+
+                    <!-- FLOW -->
+
+                    <article
+                        class="rank-card featured reveal"
+                    >
+
+                        <div class="rank-badge">
+                            Signature Rank
+                        </div>
+
+                        <div class="rank-name">
+                            FLOW
+                        </div>
+
+                        <div class="rank-description">
+
+                            The signature FLOW SMP rank for players
+                            who want a larger premium experience.
+
+                        </div>
+
+                        <ul class="rank-features">
+
+                            <li>
+                                Signature rank
+                            </li>
+
+                            <li>
+                                Enhanced perks
+                            </li>
+
+                            <li>
+                                Premium benefits
+                            </li>
+
+                            <li>
+                                Support server development
+                            </li>
+
+                        </ul>
+
+                        <a
+                            href="https://flow-smp.tebex.store/"
+                            target="_blank"
+                            class="rank-button"
+                        >
+                            View Store
+                        </a>
+
+                    </article>
+
+
+                    <!-- DRIFT -->
+
+                    <article class="rank-card reveal">
+
+                        <div class="rank-badge">
+                            Premium
+                        </div>
+
+                        <div class="rank-name">
+                            DRIFT
+                        </div>
+
+                        <div class="rank-description">
+
+                            A premium option for players looking for
+                            additional perks and recognition.
+
+                        </div>
+
+                        <ul class="rank-features">
+
+                            <li>
+                                Premium Rank
+                            </li>
+
+                            <li>
+                                Additional perks
+                            </li>
+
+                            <li>
+                                Exclusive identity
+                            </li>
+
+                            <li>
+                                Support the server
+                            </li>
+
+                        </ul>
+
+                        <a
+                            href="https://flow-smp.tebex.store/"
+                            target="_blank"
+                            class="rank-button"
+                        >
+                            View Store
+                        </a>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             COMMUNITY
+             ===================================================== -->
+
+        <section
+            id="community"
+            class="community"
+        >
+
+            <div class="container">
+
+                <div class="section-heading reveal">
+
+                    <div class="section-tag">
+                        06 / Community
+                    </div>
+
+                    <h2>
+                        THE SERVER
+                        <span style="color:#b00000;">
+                            IS THE COMMUNITY.
+                        </span>
+                    </h2>
+
+                    <p>
+
+                        Minecraft is better when there are people
+                        behind the usernames. Join our Discord,
+                        meet players and become part of FLOW SMP.
+
+                    </p>
+
+                </div>
+
+
+                <div class="community-grid">
+
+                    <div class="community-card reveal">
+
+                        <h3>
+                            💬 Discord
+                        </h3>
+
+                        <p>
+
+                            Our Discord is the main place for community
+                            announcements, updates, discussions,
+                            events, support and communication.
+
+                        </p>
+
+                        <a
+                            href="https://discord.gg/u4RcYryTAp"
+                            target="_blank"
+                            class="btn btn-primary"
+                        >
+                            Join Discord
+                        </a>
+
+                    </div>
+
+
+                    <div class="community-card reveal">
+
+                        <h3>
+                            🎮 Minecraft
+                        </h3>
+
+                        <p>
+
+                            Once you're ready to play, connect using
+                            the official FLOW SMP server address.
+
+                        </p>
+
+                        <button
+                            class="btn btn-secondary"
+                            id="copyCommunityIP"
+                        >
+                            Copy flowsmp.my-smp.net
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             RULES
+             ===================================================== -->
+
+        <section id="rules">
+
+            <div class="container">
+
+                <div class="section-heading reveal">
+
+                    <div class="section-tag">
+                        07 / Rules
+                    </div>
+
+                    <h2>
+                        FREEDOM WITH
+                        <span style="color:#b00000;">
+                            LIMITS.
+                        </span>
+                    </h2>
+
+                    <p>
+
+                        FLOW SMP is Semi-Anarchy, but the server still
+                        needs a basic set of rules to keep competition
+                        playable and the community healthy.
+
+                    </p>
+
+                </div>
+
+
+                <div class="rules-grid">
+
+
+                    <div class="rule reveal">
+
+                        <div class="rule-number">
+                            01
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                No Hacking
+                            </h4>
+
+                            <p>
+                                Do not use hacked clients, cheats or
+                                unauthorized modifications that provide
+                                an unfair advantage.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="rule reveal">
+
+                        <div class="rule-number">
+                            02
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                No Exploits
+                            </h4>
+
+                            <p>
+                                Abusing serious server bugs or exploits
+                                can result in moderation action.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="rule reveal">
+
+                        <div class="rule-number">
+                            03
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                Respect Players
+                            </h4>
+
+                            <p>
+                                Competition is encouraged, but targeted
+                                harassment and unacceptable behavior
+                                are not part of the community.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="rule reveal">
+
+                        <div class="rule-number">
+                            04
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                No DDoS / Threats
+                            </h4>
+
+                            <p>
+                                Real-world attacks, threats, doxxing
+                                and attempts to harm other players
+                                outside Minecraft are prohibited.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="rule reveal">
+
+                        <div class="rule-number">
+                            05
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                Keep It Competitive
+                            </h4>
+
+                            <p>
+                                PvP, rivalries and raids are part of
+                                the experience. Keep competition inside
+                                the game.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="rule reveal">
+
+                        <div class="rule-number">
+                            06
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                Follow Staff
+                            </h4>
+
+                            <p>
+                                Staff decisions and official server
+                                announcements should be respected.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             EVENTS
+             ===================================================== -->
+
+        <section id="events">
+
+            <div class="container">
+
+                <div class="section-heading reveal">
+
+                    <div class="section-tag">
+                        08 / Events
+                    </div>
+
+                    <h2>
+                        WHEN THE
+                        <span style="color:#b00000;">
+                            BATTLEFIELD CHANGES.
+                        </span>
+                    </h2>
+
+                    <p>
+
+                        Special events can turn the entire server into
+                        a battlefield. Seasonal events are designed
+                        to bring players together and create memorable
+                        moments.
+
+                    </p>
+
+                </div>
+
+
+                <div class="events-grid">
+
+
+                    <article class="event-card reveal">
+
+                        <div class="event-icon">
+                            ⚔️
+                        </div>
+
+                        <h3>
+                            PvP Tournaments
+                        </h3>
+
+                        <p>
+
+                            Competitive fights where players can
+                            test their combat skills against others.
+
+                        </p>
+
+                    </article>
+
+
+                    <article class="event-card reveal">
+
+                        <div class="event-icon">
+                            💥
+                        </div>
+
+                        <h3>
+                            Raid Events
+                        </h3>
+
+                        <p>
+
+                            Special events focused around discovering
+                            and attacking objectives across the map.
+
+                        </p>
+
+                    </article>
+
+
+                    <article class="event-card reveal">
+
+                        <div class="event-icon">
+                            👑
+                        </div>
+
+                        <h3>
+                            Server Challenges
+                        </h3>
+
+                        <p>
+
+                            Community-wide objectives designed to
+                            encourage teamwork and competition.
+
+                        </p>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             FAQ
+             ===================================================== -->
+
+        <section id="faq">
+
+            <div class="container">
+
+                <div class="section-heading reveal">
+
+                    <div class="section-tag">
+                        09 / FAQ
+                    </div>
+
+                    <h2>
+                        FREQUENTLY
+                        <span style="color:#b00000;">
+                            ASKED.
+                        </span>
+                    </h2>
+
+                </div>
+
+
+                <div class="faq">
+
+
+                    <div class="faq-item reveal">
+
+                        <button
+                            class="faq-question"
+                        >
+
+                            What is FLOW SMP?
+
+                            <span>
+                                +
+                            </span>
+
+                        </button>
+
+                        <div class="faq-answer">
+
+                            <p>
+
+                                FLOW SMP is a Minecraft Semi-Anarchy
+                                server focused on PvP, raiding,
+                                survival, progression and community.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="faq-item reveal">
+
+                        <button
+                            class="faq-question"
+                        >
+
+                            Is FLOW SMP an economy server?
+
+                            <span>
+                                +
+                            </span>
+
+                        </button>
+
+                        <div class="faq-answer">
+
+                            <p>
+
+                                No. FLOW SMP is designed as a
+                                non-economy server. The gameplay focuses
+                                more on items, combat, survival, raiding
+                                and player interaction.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="faq-item reveal">
+
+                        <button
+                            class="faq-question"
+                        >
+
+                            Can players raid bases?
+
+                            <span>
+                                +
+                            </span>
+
+                        </button>
+
+                        <div class="faq-answer">
+
+                            <p>
+
+                                Raiding is an important part of the
+                                Semi-Anarchy experience. Players should
+                                expect their bases to potentially be
+                                discovered and attacked.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="faq-item reveal">
+
+                        <button
+                            class="faq-question"
+                        >
+
+                            Why is the world border smaller?
+
+                            <span>
+                                +
+                            </span>
+
+                        </button>
+
+                        <div class="faq-answer">
+
+                            <p>
+
+                                A more compact world helps players
+                                encounter each other, discover bases
+                                and create more PvP and raiding
+                                opportunities.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="faq-item reveal">
+
+                        <button
+                            class="faq-question"
+                        >
+
+                            Does every season change?
+
+                            <span>
+                                +
+                            </span>
+
+                        </button>
+
+                        <div class="faq-answer">
+
+                            <p>
+
+                                Seasons can introduce new plugins,
+                                mechanics, events, objectives and
+                                gameplay systems.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="faq-item reveal">
+
+                        <button
+                            class="faq-question"
+                        >
+
+                            Where can I buy ranks?
+
+                            <span>
+                                +
+                            </span>
+
+                        </button>
+
+                        <div class="faq-answer">
+
+                            <p>
+
+                                Ranks such as Mist, Ash, Flow and Drift
+                                are available through the official
+                                FLOW SMP store.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             FINAL CTA
+             ===================================================== -->
+
+        <section class="cta">
+
+            <div class="container">
+
+                <div class="cta-box reveal">
+
+                    <h2>
+                        READY TO
+                        <span style="color:#d00000;">
+                            FLOW?
+                        </span>
+                    </h2>
+
+                    <p>
+
+                        Join the community, connect to the server,
+                        gear up and start writing your own story on
+                        FLOW SMP.
+
+                    </p>
+
+
+                    <div class="cta-buttons">
+
+                        <button
+                            class="btn btn-primary"
+                            id="copyFinalIP"
+                        >
+                            ⚔ flowsmp.my-smp.net
+                        </button>
+
+
+                        <a
+                            href="https://discord.gg/u4RcYryTAp"
+                            target="_blank"
+                            class="btn btn-secondary"
+                        >
+                            💬 Discord
+                        </a>
+
+
+                        <a
+                            href="https://flow-smp.tebex.store/"
+                            target="_blank"
+                            class="btn btn-secondary"
+                        >
+                            🛒 Store
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================================================
+         FOOTER
+         ========================================================= -->
+
+    <footer>
+
+        <div class="container">
+
+            <div class="footer-grid">
+
+
+                <div class="footer-brand">
+
+                    <a href="#home" class="brand">
+
+                        <div class="brand-mark">
+                            F
+                        </div>
+
+                        FL<span>O</span>W SMP
+
+                    </a>
+
+                    <p>
+
+                        A competitive Minecraft Semi-Anarchy
+                        community focused on PvP, raiding,
+                        survival and seasonal gameplay.
+
+                    </p>
+
+                </div>
+
+
+                <div class="footer-column">
+
+                    <h4>
+                        Navigation
+                    </h4>
+
+                    <a href="#about">
+                        About
+                    </a>
+
+                    <a href="#features">
+                        Features
+                    </a>
+
+                    <a href="#raiding">
+                        Raiding
+                    </a>
+
+                    <a href="#seasons">
+                        Seasons
+                    </a>
+
+                </div>
+
+
+                <div class="footer-column">
+
+                    <h4>
+                        Community
+                    </h4>
+
+                    <a
+                        href="https://discord.gg/u4RcYryTAp"
+                        target="_blank"
+                    >
+                        Discord
+                    </a>
+
+                    <a href="#events">
+                        Events
+                    </a>
+
+                    <a href="#rules">
+                        Rules
+                    </a>
+
+                    <a href="#faq">
+                        FAQ
+                    </a>
+
+                </div>
+
+
+                <div class="footer-column">
+
+                    <h4>
+                        Store
+                    </h4>
+
+                    <a
+                        href="https://flow-smp.tebex.store/"
+                        target="_blank"
+                    >
+                        Ranks
+                    </a>
+
+                    <a
+                        href="https://flow-smp.tebex.store/"
+                        target="_blank"
+                    >
+                        Store
+                    </a>
+
+                    <a href="#ranks">
+                        Mist
+                    </a>
+
+                    <a href="#ranks">
+                        Ash / Flow / Drift
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="footer-bottom">
+
+                <span>
+                    © 2026 FLOW SMP. All rights reserved.
+                </span>
+
+                <span>
+                    Built for the community.
+                </span>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- =========================================================
+         TOAST
+         ========================================================= -->
+
+    <div
+        class="toast"
+        id="toast"
+    >
+        Server IP copied!
+    </div>
+
+
+    <!-- =========================================================
+         JAVASCRIPT
+         ========================================================= -->
+
+    <script>
+
+        /* =========================================================
+           LOADER
+           ========================================================= */
+
+        window.addEventListener(
+            "load",
+            () => {
+
+                setTimeout(
+                    () => {
+
+                        const loader =
+                            document.getElementById(
+                                "loader"
+                            );
+
+                        loader.classList.add(
+                            "hidden"
+                        );
+
+                    },
+                    700
+                );
+
+            }
+        );
+
+
+        /* =========================================================
+           MOBILE MENU
+           ========================================================= */
+
+        const mobileMenu =
+            document.getElementById(
+                "mobileMenu"
+            );
+
+        const navLinks =
+            document.getElementById(
+                "navLinks"
+            );
+
+
+        mobileMenu.addEventListener(
+            "click",
+            () => {
+
+                navLinks.classList.toggle(
+                    "open"
+                );
+
+            }
+        );
+
+
+        document
+            .querySelectorAll(
+                ".nav-links a"
+            )
+            .forEach(
+                link => {
+
+                    link.addEventListener(
+                        "click",
+                        () => {
+
+                            navLinks.classList.remove(
+                                "open"
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+
+        /* =========================================================
+           NAVBAR SCROLL
+           ========================================================= */
+
+        const navbar =
+            document.getElementById(
+                "navbar"
+            );
+
+
+        window.addEventListener(
+            "scroll",
+            () => {
+
+                if (
+                    window.scrollY > 40
+                ) {
+
+                    navbar.classList.add(
+                        "scrolled"
+                    );
+
+                } else {
+
+                    navbar.classList.remove(
+                        "scrolled"
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* =========================================================
+           COPY IP
+           ========================================================= */
+
+        const SERVER_IP =
+            "flowsmp.my-smp.net";
+
+
+        const toast =
+            document.getElementById(
+                "toast"
+            );
+
+
+        function showToast() {
+
+            toast.classList.add(
+                "show"
+            );
+
+            setTimeout(
+                () => {
+
+                    toast.classList.remove(
+                        "show"
+                    );
+
+                },
+                2200
+            );
+
+        }
+
+
+        async function copyIP() {
+
+            try {
+
+                await navigator.clipboard.writeText(
+                    SERVER_IP
+                );
+
+                showToast();
+
+            } catch (error) {
+
+                const textarea =
+                    document.createElement(
+                        "textarea"
+                    );
+
+                textarea.value =
+                    SERVER_IP;
+
+                document.body.appendChild(
+                    textarea
+                );
+
+                textarea.select();
+
+                document.execCommand(
+                    "copy"
+                );
+
+                textarea.remove();
+
+                showToast();
+
+            }
+
+        }
+
+
+        document
+            .getElementById(
+                "copyHeroIP"
+            )
+            .addEventListener(
+                "click",
+                copyIP
+            );
+
+
+        document
+            .getElementById(
+                "copyCommunityIP"
+            )
+            .addEventListener(
+                "click",
+                copyIP
+            );
+
+
+        document
+            .getElementById(
+                "copyFinalIP"
+            )
+            .addEventListener(
+                "click",
+                copyIP
+            );
+
+
+        /* =========================================================
+           FAQ
+           ========================================================= */
+
+        const faqQuestions =
+            document.querySelectorAll(
+                ".faq-question"
+            );
+
+
+        faqQuestions.forEach(
+            question => {
+
+                question.addEventListener(
+                    "click",
+                    () => {
+
+                        const item =
+                            question.parentElement;
+
+
+                        document
+                            .querySelectorAll(
+                                ".faq-item"
+                            )
+                            .forEach(
+                                other => {
+
+                                    if (
+                                        other !== item
+                                    ) {
+
+                                        other.classList.remove(
+                                            "active"
+                                        );
+
+                                    }
+
+                                }
+                            );
+
+
+                        item.classList.toggle(
+                            "active"
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+        /* =========================================================
+           SCROLL REVEAL
+           ========================================================= */
+
+        const revealElements =
+            document.querySelectorAll(
+                ".reveal"
+            );
+
+
+        const revealObserver =
+            new IntersectionObserver(
+                entries => {
+
+                    entries.forEach(
+                        entry => {
+
+                            if (
+                                entry.isIntersecting
+                            ) {
+
+                                entry.target.classList.add(
+                                    "visible"
+                                );
+
+                            }
+
+                        }
+                    );
+
+                },
+                {
+                    threshold: 0.12
+                }
+            );
+
+
+        revealElements.forEach(
+            element => {
+
+                revealObserver.observe(
+                    element
+                );
+
+            }
+        );
+
+
+        /* =========================================================
+           PARTICLES
+           ========================================================= */
+
+        const particleContainer =
+            document.getElementById(
+                "particles"
+            );
+
+
+        function createParticle() {
+
+            const particle =
+                document.createElement(
+                    "div"
+                );
+
+
+            particle.classList.add(
+                "particle"
+            );
+
+
+            const size =
+                Math.random() * 3 + 1;
+
+
+            particle.style.width =
+                size + "px";
+
+
+            particle.style.height =
+                size + "px";
+
+
+            particle.style.left =
+                Math.random() * 100 + "%";
+
+
+            particle.style.animationDuration =
+                Math.random() * 12 + 8 + "s";
+
+
+            particle.style.animationDelay =
+                Math.random() * 8 + "s";
+
+
+            particle.style.opacity =
+                Math.random() * 0.5 + 0.1;
+
+
+            particleContainer.appendChild(
+                particle
+            );
+
+
+            setTimeout(
+                () => {
+
+                    particle.remove();
+
+                },
+                22000
+            );
+
+        }
+
+
+        for (
+            let i = 0;
+            i < 65;
+            i++
+        ) {
+
+            createParticle();
+
+        }
+
+
+        setInterval(
+            createParticle,
+            450
+        );
+
+
+        /* =========================================================
+           MOUSE GLOW
+           ========================================================= */
+
+        let mouseX = 0;
+        let mouseY = 0;
+
+
+        document.addEventListener(
+            "mousemove",
+            event => {
+
+                mouseX =
+                    event.clientX;
+
+                mouseY =
+                    event.clientY;
+
+            }
+        );
+
+
+        /* =========================================================
+           SERVER STATUS SIMULATION
+           ========================================================= */
+
+        let onlinePlayers =
+            Math.floor(
+                Math.random() * 30
+            ) + 10;
+
+
+        function updateServerStats() {
+
+            const statusElements =
+                document.querySelectorAll(
+                    ".server-stat strong"
+                );
+
+
+            if (
+                statusElements.length >= 4
+            ) {
+
+                statusElements[0].textContent =
+                    "● Online";
+
+                statusElements[1].textContent =
+                    "Semi-Anarchy";
+
+                statusElements[2].textContent =
+                    "PvP / Raid";
+
+                statusElements[3].textContent =
+                    "Non-Economy";
+
+            }
+
+        }
+
+
+        updateServerStats();
+
+
+        /* =========================================================
+           SMOOTH ANCHOR OFFSET
+           ========================================================= */
+
+        document
+            .querySelectorAll(
+                'a[href^="#"]'
+            )
+            .forEach(
+                anchor => {
+
+                    anchor.addEventListener(
+                        "click",
+                        function(event) {
+
+                            const targetId =
+                                this.getAttribute(
+                                    "href"
+                                );
+
+
+                            if (
+                                targetId === "#"
+                            ) {
+
+                                return;
+
+                            }
+
+
+                            const target =
+                                document.querySelector(
+                                    targetId
+                                );
+
+
+                            if (
+                                target
+                            ) {
+
+                                event.preventDefault();
+
+
+                                const offset =
+                                    75;
+
+
+                                const position =
+                                    target.offsetTop -
+                                    offset;
+
+
+                                window.scrollTo(
+                                    {
+                                        top:
+                                            position,
+                                        behavior:
+                                            "smooth"
+                                    }
+                                );
+
+                            }
+
+                        }
+                    );
+
+                }
+            );
+
+
+        /* =========================================================
+           CONSOLE BRANDING
+           ========================================================= */
+
+        console.log(
+            "%cFLOW SMP",
+            "font-size:40px;font-weight:900;color:#e00000;"
+        );
+
+        console.log(
+            "%cWelcome to the FLOW SMP website.",
+            "font-size:14px;color:#aaa;"
+        );
+
+        console.log(
+            "%cServer: flowsmp.my-smp.net",
+            "font-size:13px;color:#777;"
+        );
+
+    </script>
+
+</body>
+</html>
